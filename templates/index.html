@@ -1,0 +1,219 @@
+{% extends 'base.html' %} {% block content %}
+<div class="row">
+  <div class="col-12">
+    <!-- <button
+      type="button"
+      class="btn btn-success"
+      data-bs-toggle="modal"
+      data-bs-target="#modalAdd"
+      >
+      Adicionar Usuário
+    </button> -->
+    <!-- <a href="/add_user" class="btn btn-success">Adicionar Usuário</a> -->
+    <br /><br />
+    <h1>Usuários</h1>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Telefone</th>
+          <th width="110">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>
+
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#edit_user_{{user.id}}"
+            >
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            <div
+              class="modal fade"
+              id="edit_user_{{user.id}}"
+              tabindex="-1"
+              aria-labelledby="basicModal"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="">Editar</h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="edit-user-{{user.id}}" action="/update/{{user.id}}" method="post">
+                      <div class="mb-3">
+                        <label>Nome Completo</label>
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder="Nome"
+                          class="form-control"
+                          value="{{user.name}}"
+                        />
+                      </div>
+                      <div class="mb-3">
+                        <label>Email</label>
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="bruno@exemplo.com"
+                          class="form-control"
+                          value="{{user.email}}"
+                        />
+                      </div>
+                      <div class="mb-3">
+                        <label>Telefone</label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          placeholder="(00)0000-0000"
+                          class="form-control"
+                          value="{{user.phone}}"
+                        />
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                      Cancelar
+                    </button>
+                    <input form="edit-user-{{user.id}}"type="submit" value="Salvar" class="btn btn-primary" />
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-toggle="modal"
+              data-bs-target="#delete_user_{{user.id}}"
+            >
+            <i class="bi bi-trash3-fill"></i>
+            </button>
+
+            <!-- MODAL DELETE -->
+            <div
+              class="modal fade"
+              id="delete_user_{{user.id}}"
+              tabindex="-1"
+              aria-labelledby="basicModal"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalDelete">Deletar</h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">Tem certeza que deseja deleter o usuário <b>{{user.name}}</b> ?</div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                      Cancelar
+                    </button>
+            <a href="/delete/{{ user.id }}" class="btn btn-danger">Deletar</a>
+                    <!-- <button href="/delete/{{user.id}}" type="button" class="btn btn-danger">Deletar</button> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+                      </td>
+                    </tr>
+
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+<!-- MODAL ADD USER-->
+<div
+  class="modal fade"
+  id="modalAdd"
+  tabindex="-1"
+  aria-labelledby="modalAdd"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalAdd">Adicionar</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id ="add-user" action = "/add_user" method="post">
+          <div class="mb-3">
+            <label>Nome</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Nome Completo"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="bruno@exemplo.com"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label>Telefone</label>
+            <input
+              type="tel"
+              name="phone"
+              placeholder="(00)0000-0000"
+              class="form-control"
+            />
+          </div>
+        </div>
+      </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Cancelar
+          </button>
+          <input form="add-user" type="submit" value="Adicionar" class="btn btn-success" />
+        </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Voltar para o topo <i class="bi bi-arrow-up-circle-fill mx-"></i> </a></li>
+    </ul>
+    <p class="text-center text-body-secondary">© 2023</p>
+  </footer>
+</div>
+
+{% endblock content %}
