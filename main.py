@@ -28,11 +28,6 @@ async def home(request: Request, db: Session = Depends(get_db)):
     users = db.query(models.User).order_by(models.User.id.desc())
     return templates.TemplateResponse("index.html", {"request": request, "users": users})
 
-
-# @app.get("/add_user")
-# async def new_user(request: Request):
-#     return templates.TemplateResponse("add_user.html",{"request":request})
-
 @app.post("/add_user")
 async def add_user(request: Request,
                    name: str = Form(...),
